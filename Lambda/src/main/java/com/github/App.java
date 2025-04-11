@@ -1,9 +1,6 @@
 package com.github;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 import java.util.concurrent.*;
 import java.util.function.Consumer;
 import java.util.function.Function;
@@ -77,6 +74,29 @@ public class App
         // 进一步简化成方法引用
         Consumer<String> consumer3 = System.out::println;
         consumer3.accept("Hello Consumer!");
+
+        // Supplier<T>（供给型接口）
+        // 传统写法
+        Supplier<String> supplier = new Supplier<String>() {
+            @Override
+            public String get() {
+                return "Hello from anonymous class";
+            }
+        };
+
+        System.out.println(supplier.get());
+
+        // Lambda 表达式写法
+        Supplier<String> supplier2 = () -> "Hello from lambda";
+        System.out.println(supplier2.get());
+
+        // 配合Optional使用
+        String name2 = null;
+
+        Supplier<String> defaultSupplier = () -> "Default Name";
+        String result2 = Optional.ofNullable(name2).orElseGet(defaultSupplier);
+
+        System.out.println(result2); // 输出 Default Name
 
         // Function<T, R>（转换型接口）
         // 传统写法
