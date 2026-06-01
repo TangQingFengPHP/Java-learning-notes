@@ -1,11 +1,11 @@
 server:
-  port: ${SERVER_PORT:8180}
+  port: ${SERVER_PORT:8181}
 
 spring:
   application:
-    name: mybatis-flex-practice
+    name: jdbc-template-practice
   datasource:
-    url: ${DB_URL:jdbc:mysql://localhost:3308/flex_demo?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=UTF-8&connectionCollation=utf8mb4_0900_ai_ci}
+    url: ${DB_URL:jdbc:mysql://localhost:3309/jdbc_demo?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=UTF-8&connectionCollation=utf8mb4_0900_ai_ci}
     username: ${DB_USERNAME:root}
     password: ${DB_PASSWORD:123456}
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -16,12 +16,3 @@ spring:
       connection-timeout: ${DB_POOL_CONN_TIMEOUT_MS:30000}
       idle-timeout: ${DB_POOL_IDLE_TIMEOUT_MS:600000}
       max-lifetime: ${DB_POOL_MAX_LIFETIME_MS:1800000}
-
-mybatis-flex:
-  print-banner: true
-  configuration:
-    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
-
-mybatis:
-  mapper-locations: classpath*:mapper/*.xml
-

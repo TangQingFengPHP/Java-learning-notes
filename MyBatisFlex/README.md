@@ -40,8 +40,10 @@ MyBatisFlex
 在 `MyBatisFlex/` 目录执行：
 
 ```bash
-docker compose up --build
+DOCKER_BUILDKIT=1 COMPOSE_DOCKER_CLI_BUILD=1 docker compose up --build
 ```
+
+`Dockerfile` 使用 BuildKit 依赖缓存 + `pom.xml` 分层；Maven 走 `docker/maven-settings.xml`（阿里云镜像）。仅改 `src` 时重复构建会快很多。
 
 启动后：
 
