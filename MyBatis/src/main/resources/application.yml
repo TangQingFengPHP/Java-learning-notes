@@ -24,3 +24,9 @@ mybatis:
     map-underscore-to-camel-case: true
     default-statement-timeout: 30
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
+pagehelper:
+  helper-dialect: mysql
+  reasonable: true
+  support-methods-arguments: true
+  params: count=countSql

@@ -4,6 +4,8 @@ import com.github.mybatis.entity.SysUser;
 import com.github.mybatis.mapper.SysUserMapper;
 import com.github.mybatis.model.PageResult;
 import com.github.mybatis.model.SysUserSearchRequest;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -47,6 +49,29 @@ public class SysUserService {
         long total = sysUserMapper.countByStatus(status);
         List<SysUser> records = sysUserMapper.selectPage(status, offset, pageSize);
         return new PageResult<>(records, total, pageNumber, pageSize);
+    }
+
+    /**
+     * PageHelper 分页：SQL 无需手写 limit offset，插件自动拦截并 count。
+     */
+    public PageResult<SysUser> pageByHelper(String status, int pageNumber, int pageSize) {
+        PageHelper.startPage(pageNumber, pageSize);
+        List<SysUser> records = sysUserMapper.selectByStatus(status);
+        PageInfo<SysUser> pageInfo = new PageInfo<>(records);
+        return new PageResult<>(pageInfo.getList(), pageInfo.getTotal(), pageInfo.getPageNum(), pageInfo.getPageSize());
+    }
+
+    /**
+     * PageHelper + 动态 SQL：search 方法同样可被插件分页。
+     */
+    public PageResult<SysUser> searchPageByHelper(SysUserSearchRequest req, int pageNumber, int pageSize) {
+        PageHelper.startPage(pageNumber, pageSize);
+        String keyword = req != null ? req.getKeyword() : null;
+        String status = req != null ? req.getStatus() : null;
+        Integer minAge = req != null ? req.getMinAge() : null;
+        List<SysUser> records = sysUserMapper.search(keyword, status, minAge);
+        PageInfo<SysUser> pageInfo = new PageInfo<>(records);
+        return new PageResult<>(pageInfo.getList(), pageInfo.getTotal(), pageInfo.getPageNum(), pageInfo.getPageSize());
     }
 
     public List<SysUser> findByIds(List<Long> ids) {

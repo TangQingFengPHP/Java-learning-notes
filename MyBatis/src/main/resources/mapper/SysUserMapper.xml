@@ -87,6 +87,18 @@
         order by id desc
     </select>
 
+    <select id="selectByStatus" resultMap="UserResultMap">
+        select <include refid="UserColumns"/>
+        from sys_user
+        <where>
+            deleted = 0
+            <if test="status != null and status != ''">
+                and status = #{status}
+            </if>
+        </where>
+        order by id desc
+    </select>
+
     <select id="selectPage" resultMap="UserResultMap">
         select <include refid="UserColumns"/>
         from sys_user

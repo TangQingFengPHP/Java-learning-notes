@@ -23,6 +23,8 @@ public interface SysUserMapper {
 
     List<SysUser> selectByIds(@Param("ids") List<Long> ids);
 
+    List<SysUser> selectByStatus(@Param("status") String status);
+
     List<SysUser> selectPage(@Param("status") String status,
                              @Param("offset") int offset,
                              @Param("size") int size);

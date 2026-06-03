@@ -50,6 +50,20 @@ public class SysUserController {
         return sysUserService.page(status, pageNumber, pageSize);
     }
 
+    @GetMapping("/page-helper")
+    public PageResult<SysUser> pageByHelper(@RequestParam(defaultValue = "ACTIVE") String status,
+                                            @RequestParam(defaultValue = "1") int pageNumber,
+                                            @RequestParam(defaultValue = "10") int pageSize) {
+        return sysUserService.pageByHelper(status, pageNumber, pageSize);
+    }
+
+    @PostMapping("/search-page")
+    public PageResult<SysUser> searchPageByHelper(@Valid @RequestBody(required = false) SysUserSearchRequest req,
+                                                  @RequestParam(defaultValue = "1") int pageNumber,
+                                                  @RequestParam(defaultValue = "10") int pageSize) {
+        return sysUserService.searchPageByHelper(req, pageNumber, pageSize);
+    }
+
     @GetMapping("/by-ids")
     public List<SysUser> findByIds(@RequestParam String ids) {
         List<Long> idList = Arrays.stream(ids.split(","))

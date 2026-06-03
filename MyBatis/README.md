@@ -22,6 +22,7 @@
 | `<set>` 动态更新 | `update` |
 | `useGeneratedKeys` 回填主键 | `insert` |
 | `limit offset` 手写分页 | `selectPage` + `countByStatus` |
+| **PageHelper 分页插件** | `pageByHelper` / `searchPageByHelper` |
 | 多表 join + DTO | `SysOrderMapper.xml` |
 | 逻辑删除（XML 实现） | `logicDeleteById` |
 | `@Param` 多参数 | Mapper 接口方法 |
@@ -57,8 +58,16 @@ curl -X POST "http://localhost:8183/users/search" \
   -H "Content-Type: application/json" \
   -d '{"keyword":"张","status":"ACTIVE","minAge":18}'
 
-# 分页（limit offset + count）
+# 分页（limit offset + count，手写）
 curl "http://localhost:8183/users?status=ACTIVE&pageNumber=1&pageSize=10"
+
+# 分页（PageHelper 插件，SQL 无需 limit offset）
+curl "http://localhost:8183/users/page-helper?status=ACTIVE&pageNumber=1&pageSize=10"
+
+# 动态条件 + PageHelper 分页
+curl -X POST "http://localhost:8183/users/search-page?pageNumber=1&pageSize=10" \
+  -H "Content-Type: application/json" \
+  -d '{"keyword":"张","status":"ACTIVE","minAge":18}'
 
 # IN 查询（foreach）
 curl "http://localhost:8183/users/by-ids?ids=1,2,3"
