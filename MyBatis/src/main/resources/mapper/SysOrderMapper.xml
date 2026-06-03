@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.github.mybatis.mapper.SysOrderMapper">
+
+    <resultMap id="OrderResultMap" type="SysOrder">
+        <id property="id" column="id"/>
+        <result property="userId" column="user_id"/>
+        <result property="orderNo" column="order_no"/>
+        <result property="amount" column="amount"/>
+        <result property="status" column="status"/>
+        <result property="createdAt" column="created_at"/>
+    </resultMap>
+
+    <select id="selectByStatus" resultMap="OrderResultMap">
+        select id, user_id, order_no, amount, status, created_at
+        from sys_order
+        where status = #{status}
+        order by id desc
+    </select>
+
+    <select id="selectOrderUsersByStatus" resultType="com.github.mybatis.model.OrderUserDTO">
+        select
+            o.id as orderId,
+            o.order_no as orderNo,
+            o.amount as amount,
+            o.status as orderStatus,
+            u.id as userId,
+            u.username as username,
+            u.email as email
+        from sys_order o
+        left join sys_user u on o.user_id = u.id and u.deleted = 0
+        where o.status = #{status}
+        order by o.id desc
+    </select>
+
+</mapper>
