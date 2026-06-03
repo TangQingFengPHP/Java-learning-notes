@@ -1,0 +1,41 @@
+services:
+  mysql:
+    image: mysql:8.4
+    container_name: jpa-mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: 123456
+      MYSQL_DATABASE: jpa_demo
+      TZ: Asia/Shanghai
+      LANG: C.UTF-8
+    ports:
+      - "3312:3306"
+    command:
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_0900_ai_ci
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./src/main/resources/db/init.sql:/docker-entrypoint-initdb.d/01-init.sql:ro
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "127.0.0.1", "-uroot", "-p123456"]
+      interval: 5s
+      timeout: 3s
+      retries: 30
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: jpa-app
+    depends_on:
+      mysql:
+        condition: service_healthy
+    environment:
+      SERVER_PORT: 8184
+      DB_URL: jdbc:mysql://mysql:3306/jpa_demo?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=UTF-8&connectionCollation=utf8mb4_0900_ai_ci
+      DB_USERNAME: root
+      DB_PASSWORD: 123456
+    ports:
+      - "8184:8184"
+
+volumes:
+  mysql_data:
