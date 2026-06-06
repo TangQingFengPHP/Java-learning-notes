@@ -1,0 +1,16 @@
+databaseChangeLog:
+  - changeSet:
+      id: 004-add-orders-status-index
+      author: feng
+      labels: order-module
+      changes:
+        - createIndex:
+            tableName: orders
+            indexName: idx_orders_status
+            columns:
+              - column:
+                  name: status
+      rollback:
+        - dropIndex:
+            tableName: orders
+            indexName: idx_orders_status

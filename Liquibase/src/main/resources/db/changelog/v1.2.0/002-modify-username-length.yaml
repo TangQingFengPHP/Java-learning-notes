@@ -1,0 +1,14 @@
+databaseChangeLog:
+  - changeSet:
+      id: 002-modify-username-length
+      author: feng
+      changes:
+        - modifyDataType:
+            tableName: users
+            columnName: username
+            newDataType: varchar(100)
+      rollback:
+        - modifyDataType:
+            tableName: users
+            columnName: username
+            newDataType: varchar(50)

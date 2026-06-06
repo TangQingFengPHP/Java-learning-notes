@@ -1,0 +1,46 @@
+databaseChangeLog:
+  - changeSet:
+      id: 003-create-config-table
+      author: feng
+      preConditions:
+        - onFail: MARK_RAN
+        - not:
+            - tableExists:
+                tableName: app_config
+      changes:
+        - createTable:
+            tableName: app_config
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: config_key
+                  type: varchar(100)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: config_value
+                  type: varchar(500)
+                  constraints:
+                    nullable: false
+        - addUniqueConstraint:
+            tableName: app_config
+            columnNames: config_key
+            constraintName: uk_app_config_key
+        - insert:
+            tableName: app_config
+            columns:
+              - column:
+                  name: config_key
+                  value: app.name
+              - column:
+                  name: config_value
+                  value: liquibase-practice
+      rollback:
+        - dropTable:
+            tableName: app_config

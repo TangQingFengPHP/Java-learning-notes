@@ -1,0 +1,18 @@
+databaseChangeLog:
+  - changeSet:
+      id: 001-add-user-status-column
+      author: feng
+      changes:
+        - addColumn:
+            tableName: users
+            columns:
+              - column:
+                  name: status
+                  type: varchar(20)
+                  defaultValue: ACTIVE
+                  constraints:
+                    nullable: false
+      rollback:
+        - dropColumn:
+            tableName: users
+            columnName: status

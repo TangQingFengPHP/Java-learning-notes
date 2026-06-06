@@ -1,0 +1,64 @@
+databaseChangeLog:
+  - changeSet:
+      id: 004-init-order-data
+      author: feng
+      context: dev,test
+      changes:
+        - insert:
+            tableName: orders
+            columns:
+              - column:
+                  name: user_id
+                  valueNumeric: 1
+              - column:
+                  name: order_no
+                  value: A001
+              - column:
+                  name: amount
+                  valueNumeric: 99.00
+              - column:
+                  name: status
+                  value: PAID
+              - column:
+                  name: created_at
+                  valueDate: 2026-02-01T10:00:00
+        - insert:
+            tableName: orders
+            columns:
+              - column:
+                  name: user_id
+                  valueNumeric: 1
+              - column:
+                  name: order_no
+                  value: A002
+              - column:
+                  name: amount
+                  valueNumeric: 260.00
+              - column:
+                  name: status
+                  value: PAID
+              - column:
+                  name: created_at
+                  valueDate: 2026-02-02T10:00:00
+        - insert:
+            tableName: orders
+            columns:
+              - column:
+                  name: user_id
+                  valueNumeric: 2
+              - column:
+                  name: order_no
+                  value: A003
+              - column:
+                  name: amount
+                  valueNumeric: 35.50
+              - column:
+                  name: status
+                  value: CANCELLED
+              - column:
+                  name: created_at
+                  valueDate: 2026-02-03T10:00:00
+      rollback:
+        - delete:
+            tableName: orders
+            where: order_no in ('A001', 'A002', 'A003')

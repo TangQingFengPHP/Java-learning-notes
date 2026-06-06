@@ -1,0 +1,21 @@
+databaseChangeLog:
+  - changeSet:
+      id: 002-backfill-disabled-user-status
+      author: feng
+      context: dev,test
+      changes:
+        - update:
+            tableName: users
+            columns:
+              - column:
+                  name: status
+                  value: DISABLED
+            where: email = 'wangwu@example.com'
+      rollback:
+        - update:
+            tableName: users
+            columns:
+              - column:
+                  name: status
+                  value: ACTIVE
+            where: email = 'wangwu@example.com'

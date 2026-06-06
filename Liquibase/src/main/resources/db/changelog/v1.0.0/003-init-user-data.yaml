@@ -1,0 +1,55 @@
+databaseChangeLog:
+  - changeSet:
+      id: 003-init-user-data
+      author: feng
+      context: dev,test
+      changes:
+        - insert:
+            tableName: users
+            columns:
+              - column:
+                  name: username
+                  value: 张三
+              - column:
+                  name: email
+                  value: zhangsan@example.com
+              - column:
+                  name: age
+                  valueNumeric: 20
+              - column:
+                  name: created_at
+                  valueDate: 2026-01-01T10:00:00
+        - insert:
+            tableName: users
+            columns:
+              - column:
+                  name: username
+                  value: 李四
+              - column:
+                  name: email
+                  value: lisi@example.com
+              - column:
+                  name: age
+                  valueNumeric: 25
+              - column:
+                  name: created_at
+                  valueDate: 2026-01-02T10:00:00
+        - insert:
+            tableName: users
+            columns:
+              - column:
+                  name: username
+                  value: 王五
+              - column:
+                  name: email
+                  value: wangwu@example.com
+              - column:
+                  name: age
+                  valueNumeric: 17
+              - column:
+                  name: created_at
+                  valueDate: 2026-01-03T10:00:00
+      rollback:
+        - delete:
+            tableName: users
+            where: email in ('zhangsan@example.com', 'lisi@example.com', 'wangwu@example.com')
