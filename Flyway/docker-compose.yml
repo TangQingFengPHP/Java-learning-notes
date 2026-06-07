@@ -1,0 +1,41 @@
+services:
+  mysql:
+    image: mysql:8.4
+    container_name: flyway-mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: 123456
+      MYSQL_DATABASE: flyway_demo
+      TZ: Asia/Shanghai
+      LANG: C.UTF-8
+    ports:
+      - "3314:3306"
+    command:
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_0900_ai_ci
+    volumes:
+      - mysql_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "127.0.0.1", "-uroot", "-p123456"]
+      interval: 5s
+      timeout: 3s
+      retries: 30
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: flyway-app
+    depends_on:
+      mysql:
+        condition: service_healthy
+    environment:
+      SERVER_PORT: 8186
+      DB_URL: jdbc:mysql://mysql:3306/flyway_demo?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=UTF-8&connectionCollation=utf8mb4_0900_ai_ci
+      DB_USERNAME: root
+      DB_PASSWORD: 123456
+      FLYWAY_LOCATIONS: classpath:db/migration,classpath:db/dev
+    ports:
+      - "8186:8186"
+
+volumes:
+  mysql_data:
