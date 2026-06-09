@@ -1,0 +1,43 @@
+server:
+  port: ${SERVER_PORT:8187}
+  forward-headers-strategy: framework
+  servlet:
+    context-path: ${SERVER_CONTEXT_PATH:}
+  tomcat:
+    threads:
+      max: ${TOMCAT_THREADS_MAX:200}
+      min-spare: ${TOMCAT_THREADS_MIN_SPARE:10}
+    accept-count: ${TOMCAT_ACCEPT_COUNT:100}
+    connection-timeout: ${TOMCAT_CONNECTION_TIMEOUT:20s}
+    accesslog:
+      enabled: ${TOMCAT_ACCESS_LOG_ENABLED:true}
+      pattern: '%h %l %u %t "%r" %s %b %D ms'
+
+spring:
+  application:
+    name: tomcat-practice
+  datasource:
+    url: ${DB_URL:jdbc:mysql://localhost:3315/tomcat_demo?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=UTF-8&connectionCollation=utf8mb4_0900_ai_ci}
+    # 本地url: ${DB_URL:jdbc:mysql://localhost:3307/tomcat_demo?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=UTF-8&connectionCollation=utf8mb4_0900_ai_ci}
+    username: ${DB_USERNAME:root}
+    password: ${DB_PASSWORD:123456}
+#本地    password: ${DB_PASSWORD:root}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    hikari:
+      connection-init-sql: SET NAMES utf8mb4 COLLATE utf8mb4_0900_ai_ci
+      maximum-pool-size: ${DB_POOL_MAX_SIZE:10}
+      minimum-idle: ${DB_POOL_MIN_IDLE:2}
+      connection-timeout: ${DB_POOL_CONN_TIMEOUT_MS:30000}
+      idle-timeout: ${DB_POOL_IDLE_TIMEOUT_MS:600000}
+      max-lifetime: ${DB_POOL_MAX_LIFETIME_MS:1800000}
+
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    open-in-view: false
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+        jdbc:
+          time_zone: Asia/Shanghai
