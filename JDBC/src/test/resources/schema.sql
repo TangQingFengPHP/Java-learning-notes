@@ -1,0 +1,41 @@
+DROP TABLE IF EXISTS operation_log;
+DROP TABLE IF EXISTS orders;
+DROP TABLE IF EXISTS accounts;
+DROP TABLE IF EXISTS users;
+
+CREATE TABLE users (
+  id BIGINT PRIMARY KEY AUTO_INCREMENT,
+  username VARCHAR(50) NOT NULL,
+  email VARCHAR(100) NOT NULL,
+  age INT NOT NULL,
+  status VARCHAR(20) NOT NULL,
+  created_at TIMESTAMP NOT NULL,
+  UNIQUE (email)
+);
+
+CREATE TABLE operation_log (
+  id BIGINT PRIMARY KEY AUTO_INCREMENT,
+  user_id BIGINT NOT NULL,
+  content VARCHAR(200) NOT NULL,
+  created_at TIMESTAMP NOT NULL
+);
+
+CREATE TABLE orders (
+  id BIGINT PRIMARY KEY AUTO_INCREMENT,
+  user_id BIGINT NOT NULL,
+  order_no VARCHAR(50) NOT NULL,
+  amount DECIMAL(10, 2) NOT NULL,
+  status VARCHAR(20) NOT NULL,
+  created_at TIMESTAMP NOT NULL
+);
+
+CREATE TABLE accounts (
+  id BIGINT PRIMARY KEY AUTO_INCREMENT,
+  owner_name VARCHAR(50) NOT NULL,
+  balance DECIMAL(12, 2) NOT NULL,
+  updated_at TIMESTAMP NOT NULL
+);
+
+INSERT INTO accounts (owner_name, balance, updated_at) VALUES
+('张三', 1000.00, CURRENT_TIMESTAMP),
+('李四', 500.00, CURRENT_TIMESTAMP);
