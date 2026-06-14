@@ -1,0 +1,18 @@
+server:
+  port: ${SERVER_PORT:8190}
+
+spring:
+  application:
+    name: webflux-practice
+  r2dbc:
+    url: ${R2DBC_URL:r2dbc:mysql://localhost:3317/webflux_demo?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=UTF-8}
+    username: ${DB_USERNAME:root}
+    password: ${DB_PASSWORD:123456}
+    pool:
+      initial-size: ${R2DBC_POOL_INITIAL_SIZE:2}
+      max-size: ${R2DBC_POOL_MAX_SIZE:10}
+      max-idle-time: ${R2DBC_POOL_MAX_IDLE_TIME:30m}
+
+app:
+  user-api:
+    base-url: ${USER_API_BASE_URL:http://localhost:8190}
