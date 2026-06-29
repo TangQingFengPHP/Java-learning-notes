@@ -1,0 +1,29 @@
+DROP TABLE IF EXISTS tb_register_log;
+DROP TABLE IF EXISTS tb_order;
+DROP TABLE IF EXISTS tb_user;
+
+CREATE TABLE tb_user (
+  id BIGINT PRIMARY KEY AUTO_INCREMENT,
+  username VARCHAR(50) NOT NULL,
+  email VARCHAR(100) NOT NULL,
+  age INT NOT NULL,
+  status VARCHAR(20) NOT NULL,
+  created_at TIMESTAMP NOT NULL,
+  updated_at TIMESTAMP NULL
+);
+
+CREATE TABLE tb_register_log (
+  id BIGINT PRIMARY KEY AUTO_INCREMENT,
+  user_id BIGINT NOT NULL,
+  content VARCHAR(200) NOT NULL,
+  created_at TIMESTAMP NOT NULL
+);
+
+CREATE TABLE tb_order (
+  id BIGINT PRIMARY KEY AUTO_INCREMENT,
+  user_id BIGINT NOT NULL,
+  order_no VARCHAR(50) NOT NULL,
+  amount DECIMAL(10, 2) NOT NULL,
+  status VARCHAR(20) NOT NULL,
+  created_at TIMESTAMP NOT NULL
+);
